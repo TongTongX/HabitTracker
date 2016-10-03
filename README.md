@@ -1,6 +1,7 @@
-# as1
-# HabitTracker
-Assignment 1 of CMPUT 301 at U of A
+# xutong-HabitTracker
+Assignment 1
+CMPUT 301
+UAlberta
 
 # Setup
 * Android Studio 2.1.3
@@ -15,10 +16,10 @@ Assignment 1 of CMPUT 301 at U of A
 * This app is backward compatible utill API 18.
 
 # Demo Video URL
-[Youtube](https://youtu.be/q60sKc4nDmQ)
+[Demo Video on Youtube](https://youtu.be/q60sKc4nDmQ)
 
-# collaboration
-Provide consultation and advice to Yu Zhu, Zichun Lin, and Stephen Larsen.
+# Collaboration
+Received/Provided consultation and advice to Yu Zhu, Zichun Lin.
 
 # Credits
 * [Android Developers](https://developer.android.com/index.html) - Major source of reference.
