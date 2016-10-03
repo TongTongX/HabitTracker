@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">xutong-HabitTracker</string>
+    <string name="action_view_habits">View All Habits</string>
+    <string name="action_add_habit">Add A Habit</string>
+
+
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="habit_name">Habit Name</string>
+    <string name="prompt_habit_name">Please enter habit name</string>
+    <string name="prompt_date">Date</string>
+
+
+    <!-- String for add_habit_form -->
+    <string name="edit_habit_name">Habit Name</string>
+    <string name="edit_date">Date</string>
+    <string name="date_text">%2$d-%2$d-%2$d</string>
+    <string name="edit_days">Day(s) of Week</string>
+    <string name="days_dialog">Day(s) of Week</string>
+    <string name="add_habit_button">Add Habit</string>
+    <string name="cancel_add_button">Cancel</string>
+    <array name="days_of_week">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </array>
+</resources>
