@@ -14,7 +14,7 @@ Assign1, CMPUT 301, UAlberta
 * This app is backward compatible utill API 18.
 
 # Demo Video URL
-[Demo Video on Youtube](https://youtu.be/q60sKc4nDmQ)
+[Demo Video on Youtube](https://youtu.be/9TL8S7DxytU)
 
 # Collaboration
 Received/Provided consultation and advice to Yu Zhu and Zichun Lin.
