@@ -19,7 +19,7 @@ UAlberta
 [Demo Video on Youtube](https://youtu.be/q60sKc4nDmQ)
 
 # Collaboration
-Received/Provided consultation and advice to Yu Zhu, Zichun Lin.
+Received/Provided consultation and advice to Yu Zhu and Zichun Lin.
 
 # Credits
 * [Android Developers](https://developer.android.com/index.html) - Major source of reference.
