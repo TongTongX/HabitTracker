@@ -1,7 +1,5 @@
 # xutong-HabitTracker
-Assignment 1
-CMPUT 301
-UAlberta
+Assign1, CMPUT 301, UAlberta
 
 # Setup
 * Android Studio 2.1.3
