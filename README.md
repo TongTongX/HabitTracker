@@ -27,7 +27,7 @@ Received/Provided consultation and advice to Yu Zhu and Zichun Lin.
 * [Stackoverflow - Display two listvies in one activity](http://stackoverflow.com/questions/17693578/android-how-to-display-2-listviews-in-one-activity-one-after-the-other)
 * [Stackoverflow - Datepicker dialog](http://stackoverflow.com/questions/18267091/open-a-datepickerdialog-on-click-of-edittext-takes-two-clicks)
 * [Stackoverflow - Custom dialog with setmultichoiceitems](http://stackoverflow.com/questions/13858974/custom-dialog-with-setmultichoiceitems)
-* [Stackoverflow - get Year,Month, Day etc from Java Date](http://stackoverflow.com/questions/9474121/i-want-to-get-year-month-day-etc-from-java-date-to-compare-with-gregorian-calen)
+* [Stackoverflow - Get Year, Month, Day etc from Java Date](http://stackoverflow.com/questions/9474121/i-want-to-get-year-month-day-etc-from-java-date-to-compare-with-gregorian-calen)
 * [Stackoverflow - Return back to MainActivity from another activity](http://stackoverflow.com/questions/14848590/return-back-to-mainactivity-from-another-activity)
 * [Stackoverflow - Cannot resolve method 'openFileOutput(java.lang.String,int)](http://stackoverflow.com/questions/30929838/cannot-resolve-method-openfileoutputjava-lang-string-int)
 * [Stackoverflow - How to handle try catch exception android](http://stackoverflow.com/questions/22248311/how-to-handle-try-catch-exception-android)
