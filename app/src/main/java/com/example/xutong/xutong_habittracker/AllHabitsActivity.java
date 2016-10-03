@@ -210,7 +210,7 @@ public class AllHabitsActivity extends AppCompatActivity {
         ArrayList<CharSequence> fulfilList = new ArrayList<>();
         try {
             for (Calendar date : habit.getFulfilDate()) {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
                 String fulfilString = dateFormat.format(date.getTime());
                 fulfilList.add(fulfilString);
             }
