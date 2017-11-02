@@ -1,6 +1,5 @@
 package com.example.xutong.xutong_habittracker;
 
-
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-
 public class AddEditHabitActivity extends AppCompatActivity implements View.OnClickListener{
     private Habit newHabit;
     private Calendar habitDate;
@@ -29,7 +27,6 @@ public class AddEditHabitActivity extends AppCompatActivity implements View.OnCl
     private int month;
     private int day;
     private String[] week = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +46,6 @@ public class AddEditHabitActivity extends AppCompatActivity implements View.OnCl
 
         cancelAddButton = (Button) findViewById(R.id.cancel_add_button);
         cancelAddButton.setOnClickListener(this);
-
     }
 
     @Override
@@ -60,7 +56,6 @@ public class AddEditHabitActivity extends AppCompatActivity implements View.OnCl
             openDaysPickerDialog();
         } else if (view == addHabitButton) {
             addHabit();
-
         } else if (view == cancelAddButton) {
             finish();
         }
@@ -97,7 +92,6 @@ public class AddEditHabitActivity extends AppCompatActivity implements View.OnCl
             }
         }
     }
-
 
     private void openDatePickerDialog() {
         // http://stackoverflow.com/questions/9474121/i-want-to-get-year-month-day-etc-from-java-date-to-compare-with-gregorian-calen
@@ -155,9 +149,6 @@ public class AddEditHabitActivity extends AppCompatActivity implements View.OnCl
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
-
-
 }
 
 

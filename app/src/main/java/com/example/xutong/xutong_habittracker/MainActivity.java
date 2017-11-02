@@ -27,8 +27,6 @@ public class MainActivity extends AppCompatActivity {
     private ListView fulfilledListView;
     private ListView unfulfilledListView;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
         fulfilledAdapter.notifyDataSetChanged();
         unfulfilledAdapter.notifyDataSetChanged();
     }
-    
 
     // Code taken from https://developer.android.com/guide/topics/ui/menus.html
     @Override
@@ -183,7 +180,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addHabitFulfilDate (String habitName) {
-
         Calendar today = Calendar.getInstance();
 
         for (Habit habit : habits) {
@@ -211,7 +207,4 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
-
-
 }

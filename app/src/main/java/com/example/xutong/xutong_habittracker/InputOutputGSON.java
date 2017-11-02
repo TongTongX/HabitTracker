@@ -23,36 +23,6 @@ public class InputOutputGSON {
         this.context = context;
     }
 
-    /**
-     * Failed to fix the following error: Expected BEGIN_ARRAY but was BEGIN_OBJECT at line 1 column 2 path $
-     * Comment out loadFromFile() function. Create a file for each single habit instead of all habit objects.
-     *
-     * http://sachinpatil.com/blog/2012/07/03/gson/
-     * http://stackoverflow.com/questions/20991386/expected-begin-array-but-was-begin-object-at-line-1-column-2
-     * http://stackoverflow.com/questions/24715075/java-lang-illegalstateexception-expected-begin-array-but-was-begin-object-at-li
-     */
-//    private static final String FILENAME = "file.sav";
-//    protected ArrayList<Habit> loadFromFile() {
-//        ArrayList<Habit> habitList = new ArrayList<>();
-//        try {
-//            FileInputStream fis = context.openFileInput(FILENAME);
-//            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-//            Gson gson = new Gson();
-//            // Code taken from http://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt Sept.22.2016
-//            Type listType = new TypeToken<ArrayList<Habit>>(){}.getType();
-//            habitList = gson.fromJson(in, listType);
-//
-//            return habitList;
-//
-//        } catch (FileNotFoundException e) {
-//            System.out.println("Error " + e.getMessage());
-//            throw new RuntimeException();
-//        } catch (IOException e) {
-//            System.out.println("Error " + e.getMessage());
-//            throw new RuntimeException();
-//        }
-//    }
-
     protected ArrayList<Habit> loadFromAllFiles() {
         ArrayList<Habit> habitList = new ArrayList<Habit>();
         Habit habitObj;
@@ -73,16 +43,13 @@ public class InputOutputGSON {
                 throw new RuntimeException();
             }
         }
+
         return habitList;
     }
 
-
-
     private String jsonFileName(Habit habit) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-        String fileName = dateFormat.format(habit.getHabitDate().getTime()) + ".json";
-
-        return fileName;
+        return dateFormat.format(habit.getHabitDate().getTime()) + ".json";
     }
 
     protected void deleteFile(Habit habit) {

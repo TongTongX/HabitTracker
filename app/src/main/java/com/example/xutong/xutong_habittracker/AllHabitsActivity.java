@@ -156,7 +156,6 @@ public class AllHabitsActivity extends AppCompatActivity {
         dialog.show();
     }
 
-
     /**
      * Delete selected fulfil date(s)
      * @param habit
@@ -219,7 +218,4 @@ public class AllHabitsActivity extends AppCompatActivity {
         }
         return fulfilList;
     }
-
-
-
 }

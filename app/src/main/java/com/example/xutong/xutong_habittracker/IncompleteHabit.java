@@ -10,8 +10,4 @@ public class IncompleteHabit extends Habit {
     public IncompleteHabit(String habitName, Calendar habitDate, ArrayList<String> occurDays) throws InvalidHabitException {
         super(habitName, habitDate, occurDays);
     }
-
-    public IncompleteHabit(String habitName, Calendar habitDate, ArrayList<String> occurDays, ArrayList<Calendar> fulfilDate) throws InvalidHabitException {
-        super(habitName, habitDate, occurDays, fulfilDate);
-    }
 }
