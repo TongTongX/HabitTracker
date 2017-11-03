@@ -61,6 +61,9 @@ public class AddEditHabitActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
+    /**
+     * Create a Habit object, save it in a json file.
+     */
     protected void addHabit() {
         boolean validHabit = true;
 
@@ -93,6 +96,9 @@ public class AddEditHabitActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
+    /**
+     * Dialog for picking the date.
+     */
     private void openDatePickerDialog() {
         // http://stackoverflow.com/questions/9474121/i-want-to-get-year-month-day-etc-from-java-date-to-compare-with-gregorian-calen
         final Calendar today = Calendar.getInstance();
@@ -112,7 +118,10 @@ public class AddEditHabitActivity extends AppCompatActivity implements View.OnCl
         datePickerDialog.show();
     }
 
-    // https://developer.android.com/guide/topics/ui/dialogs.html
+    /**
+     * Dialog for picking the day of week.
+     * https://developer.android.com/guide/topics/ui/dialogs.html
+     */
     private void openDaysPickerDialog() {
         daysOfWeek = new ArrayList();   // Where we track the selected items
         AlertDialog.Builder builder = new AlertDialog.Builder(AddEditHabitActivity.this);

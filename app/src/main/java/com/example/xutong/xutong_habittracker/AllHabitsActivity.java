@@ -25,9 +25,6 @@ public class AllHabitsActivity extends AppCompatActivity {
     private ListView allHabitsListView;
     private List<Integer> fulfilForDeleting = new ArrayList<>();
 
-    /**
-     * Override onCreate, onStart and onResume.
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,9 +73,9 @@ public class AllHabitsActivity extends AppCompatActivity {
     }
 
     /**
-     * Open this dialog if the habit has been fulfilled.
+     * Dialog to show the habit's fulfilment history.
      * Code taken from https://developer.android.com/guide/topics/ui/dialogs.html
-     * @param habit
+     * @param habit The selected habit.
      */
     private void openFulfilDialog(final Habit habit) {
         List<CharSequence> fulfilList;
@@ -131,8 +128,8 @@ public class AllHabitsActivity extends AppCompatActivity {
     }
 
     /**
-     * Open this dialog if the habit has not been fulfilled.
-     * @param habit
+     * Dialog to indicate the habit has not been fulfilled.
+     * @param habit The selected habit.
      */
     private void openUnfulfilDialog(final Habit habit) {
         AlertDialog.Builder builder = new AlertDialog.Builder(AllHabitsActivity.this);
@@ -157,8 +154,8 @@ public class AllHabitsActivity extends AppCompatActivity {
     }
 
     /**
-     * Delete selected fulfil date(s)
-     * @param habit
+     * Delete selected fulfil date(s).
+     * @param habit The selected habit.
      */
     private void deleteFulfilment(Habit habit) {
         fulfilDate = habit.getFulfilDate();
@@ -188,7 +185,7 @@ public class AllHabitsActivity extends AppCompatActivity {
 
     /**
      * Delete habit.
-     * @param habit
+     * @param habit The habit to be deleted.
      */
     private void deleteHabit(Habit habit) {
         // make changes to json file & reload
@@ -202,7 +199,7 @@ public class AllHabitsActivity extends AppCompatActivity {
 
     /**
      * Get an ArrayList of fulfilDate in String.
-     * @param habit
+     * @param habit The selected habit.
      * @return ArrayList<CharSequence> fulfilList
      */
     private ArrayList<CharSequence> getFulfilList(Habit habit) {

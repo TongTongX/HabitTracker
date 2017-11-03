@@ -17,20 +17,28 @@ import java.util.ArrayList;
  */
 public class InputOutputGSON {
     // Code taken from http://stackoverflow.com/questions/30929838/cannot-resolve-method-openfileoutputjava-lang-string-int
-    protected Context context;
+    private Context context;
 
+    /**
+     * Constructor.
+     * @param context Context for managing files.
+     */
     public InputOutputGSON(Context context) {
         this.context = context;
     }
 
+    /**
+     * Load Habit objects from all saved json files.
+     * @return list of Habit objects.
+     */
     protected ArrayList<Habit> loadFromAllFiles() {
         ArrayList<Habit> habitList = new ArrayList<Habit>();
         Habit habitObj;
         // https://developer.android.com/reference/android/content/Context.html#fileList()
-        String[] fileList = context.fileList();
+        String[] fileList = this.context.fileList();
         for (int i = 1; i < fileList.length; ++i) {
             try {
-                FileInputStream fis = context.openFileInput(fileList[i]);
+                FileInputStream fis = this.context.openFileInput(fileList[i]);
                 BufferedReader in = new BufferedReader(new InputStreamReader(fis));
                 Gson gson = new Gson();
                 habitObj = gson.fromJson(in, Habit.class);
@@ -47,20 +55,33 @@ public class InputOutputGSON {
         return habitList;
     }
 
+    /**
+     * Get the json file's name based on a habit's datetime.
+     * @param habit Habit object.
+     * @return json file name corresponding to the habit.
+     */
     private String jsonFileName(Habit habit) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
         return dateFormat.format(habit.getHabitDate().getTime()) + ".json";
     }
 
+    /**
+     * Delete the json file corresponding to the habit.
+     * @param habit Habit object.
+     */
     protected void deleteFile(Habit habit) {
         String fileName = jsonFileName(habit);
-        context.deleteFile(fileName);
+        this.context.deleteFile(fileName);
     }
 
+    /**
+     * Save a Habit object to its corresponding json file.
+     * @param habit Habit object.
+     */
     protected void saveInFile(Habit habit) {
         String fileName = jsonFileName(habit);
         try {
-            FileOutputStream fos = context.openFileOutput(fileName, 0);
+            FileOutputStream fos = this.context.openFileOutput(fileName, 0);
             OutputStreamWriter writer = new OutputStreamWriter(fos);
             Gson gson = new Gson();
             gson.toJson(habit, writer);

@@ -105,22 +105,27 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Load all habits.
+     */
     private void loadAllHabit() {
         InputOutputGSON IOGson = new InputOutputGSON(this);
         habits = IOGson.loadFromAllFiles();
-        // check if there is any file exist
         if (!habits.isEmpty()) {
-            // consider the habit which is finished within today
-            // as recent completed
             Calendar today = Calendar.getInstance();
             for (Habit habit : habits) {
-                // if the habit should be done today
-                addTohabits(habit, today);
+                addToHabits(habit, today);
             }
         }
     }
 
-    private void addTohabits(Habit habit, Calendar today) {
+    /**
+     * Add Habit object to either fulfilledHabits or unfulfilledHabits. Consider the habit finished
+     * within today as a recent completed habit.
+     * @param habit Habit object.
+     * @param today Today.
+     */
+    private void addToHabits(Habit habit, Calendar today) {
         boolean notPast = false;
         boolean isToday = false;
         boolean shouldOccur = false;
@@ -145,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
                 unfulfilledHabits.add(habit);
             } else {
                 for (Calendar date : habit.getFulfilDate()) {
-                    // if the habit has been fullfiled today
+                    // if the habit has been fulfilled today
                     if (dateFormat.format(date.getTime()).equals(dateFormat.format(today.getTime()))) {
                         fulfilledHabits.add(habit);
                         break;
@@ -155,7 +160,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // https://developer.android.com/guide/topics/ui/dialogs.html
+    /**
+     * Dialog for fulfil the habit once.
+     * https://developer.android.com/guide/topics/ui/dialogs.html
+     * @param habitName The selected habit's name.
+     */
     private void openAddFulfilDialog(final String habitName) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("This Habit Is Fulfilled.")
@@ -179,6 +188,10 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Add a habit's fulfilment date.
+     * @param habitName The selected habit's name.
+     */
     private void addHabitFulfilDate (String habitName) {
         Calendar today = Calendar.getInstance();
 
