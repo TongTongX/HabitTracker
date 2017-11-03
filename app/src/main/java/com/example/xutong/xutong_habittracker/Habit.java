@@ -21,7 +21,7 @@ public class Habit {
      * @throws InvalidHabitException if habitName is not specified properly.
      */
     public Habit(String habitName,  Calendar habitDate, ArrayList<String> occurDays) throws InvalidHabitException{
-        if (habitName.trim().isEmpty()) {
+        if (habitName.trim().isEmpty() || occurDays.isEmpty()) {
             throw new InvalidHabitException();
         }
 
