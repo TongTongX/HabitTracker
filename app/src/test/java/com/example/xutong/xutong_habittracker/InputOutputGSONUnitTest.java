@@ -5,6 +5,7 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import org.junit.Test;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -43,7 +44,13 @@ public class InputOutputGSONUnitTest extends ActivityInstrumentationTestCase2 {
         occurDays.add(week[0]);
         Habit habit = new Habit(habitName, habitDate, occurDays);
 
-        InputOutputGSON ioGson = new InputOutputGSON(new AddEditHabitActivity());
+        AddEditHabitActivity addEditHabitActivity = new AddEditHabitActivity();
+        InputOutputGSON ioGson = new InputOutputGSON(addEditHabitActivity);
         ioGson.saveInFile(habit);
+
+        // https://stackoverflow.com/questions/8867334/check-if-a-file-exists-before-calling-openfileinput
+        File habitFile = addEditHabitActivity.getFileStreamPath(ioGson.jsonFileName(habit));
+        assertNotNull(habitFile);
+        assertTrue(habitFile.exists());
     }
 }

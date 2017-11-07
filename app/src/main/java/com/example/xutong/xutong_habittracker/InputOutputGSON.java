@@ -60,7 +60,7 @@ public class InputOutputGSON {
      * @param habit Habit object.
      * @return json file name corresponding to the habit.
      */
-    private String jsonFileName(Habit habit) {
+    protected String jsonFileName(Habit habit) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
         return dateFormat.format(habit.getHabitDate().getTime()) + ".json";
     }
