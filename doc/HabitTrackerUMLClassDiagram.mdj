@@ -2419,7 +2419,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "-jsonFileName(habit: Habit): String",
+											"text": "#jsonFileName(habit: Habit): String",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5
 										},
@@ -7570,7 +7570,7 @@
 								"$ref": "AAAAAAFffr+MSj+H+3o="
 							},
 							"name": "jsonFileName",
-							"visibility": "private",
+							"visibility": "protected",
 							"isStatic": false,
 							"isLeaf": false,
 							"parameters": [
