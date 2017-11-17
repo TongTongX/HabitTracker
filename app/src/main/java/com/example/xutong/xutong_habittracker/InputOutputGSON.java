@@ -36,7 +36,7 @@ public class InputOutputGSON {
         Habit habitObj;
         // https://developer.android.com/reference/android/content/Context.html#fileList()
         String[] fileList = this.context.fileList();
-        for (int i = 1; i < fileList.length; ++i) {
+        for (int i = 0; i < fileList.length; i++) {
             try {
                 FileInputStream fis = this.context.openFileInput(fileList[i]);
                 BufferedReader in = new BufferedReader(new InputStreamReader(fis));
