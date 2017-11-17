@@ -46,8 +46,9 @@ public class InputOutputGSONUnitTest extends ActivityInstrumentationTestCase2 {
 
         AddEditHabitActivity addEditHabitActivity = new AddEditHabitActivity();
         InputOutputGSON ioGson = new InputOutputGSON(addEditHabitActivity);
-        ioGson.saveInFile(habit);
 
+        assertFalse(isFileExistent(addEditHabitActivity, ioGson.jsonFileName(habit)));
+        ioGson.saveInFile(habit);
         assertTrue(isFileExistent(addEditHabitActivity, ioGson.jsonFileName(habit)));
     }
 
