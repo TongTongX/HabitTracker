@@ -2,6 +2,7 @@ package com.example.xutong.xutong_habittracker;
 
 import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 
 import org.junit.Test;
 
@@ -10,15 +11,11 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-/**
- * Created by drei on 2017-12-01.
- */
-
 public class LoadFromFileTest extends ActivityInstrumentationTestCase2 {
 
     private String[] week = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 
-    public LoadFromFileTest() {
+    public LoadFromFileTest(){
         super(com.example.xutong.xutong_habittracker.MainActivity.class);
     }
 
@@ -37,53 +34,75 @@ public class LoadFromFileTest extends ActivityInstrumentationTestCase2 {
 
     }
 
-    // STATEMENT COVERAGE
     @Test
-    public void straightDownTest() throws InvalidHabitException, FileNotFoundException {
-        String habitName = "one habit";
+    public void testSaveInFile() throws InvalidHabitException, FileNotFoundException {
+        String habitName = "new habit";
         Calendar habitDate = Calendar.getInstance();
         ArrayList<String> occurDays = new ArrayList<>();
         occurDays.add(week[3]);
-
         Habit habit = new Habit(habitName, habitDate, occurDays);
 
         AllHabitsActivity allHabitsActivity = new AllHabitsActivity();
-        AddEditHabitActivity addEditHabitActivity = new AddEditHabitActivity();
-        InputOutputGSON ioGson = new InputOutputGSON(addEditHabitActivity);
-
+        InputOutputGSON ioGson = new InputOutputGSON(allHabitsActivity);
         ioGson.saveInFile(habit);
-        assertTrue(true);
-
-//        assertTrue(1 == getFiles(addEditHabitActivity).length);
-}
+        System.out.println("Number of files: ");
+        assertTrue(1 == getFiles(allHabitsActivity));
+    }
 
 //    @Test
-//    public void fileNotFoundTest() throws InvalidHabitException, FileNotFoundException {
+//    public void testDeleteFile() throws InvalidHabitException, FileNotFoundException{
+//        String habitName = "test002";
+//        Calendar habitDate = Calendar.getInstance();
+//        ArrayList<String> occurDays = new ArrayList<>();
+//        occurDays.add(week[0]);
+//        Habit habit = new Habit(habitName, habitDate, occurDays);
 //
+//        AllHabitsActivity allHabitsActivity = new AllHabitsActivity();
+//        InputOutputGSON ioGson = new InputOutputGSON(allHabitsActivity);
+//        ioGson.saveInFile(habit);
+//
+//        assertTrue(isFileExistent(allHabitsActivity, ioGson.jsonFileName(habit)));
+//        ioGson.deleteFile(habit);
+//        assertFalse(isFileExistent(allHabitsActivity, ioGson.jsonFileName(habit)));
 //    }
 //
 //    @Test
-//    public void ioExceptionTest() throws InvalidHabitException, FileNotFoundException {
+//    public void testLoadNonexistentFile() throws InvalidHabitException, FileNotFoundException{
+//        AllHabitsActivity allHabitsActivity = new AllHabitsActivity();
+//        InputOutputGSON ioGson = new InputOutputGSON(allHabitsActivity);
 //
+//        ArrayList<Habit> habitList = ioGson.loadFromAllFiles();
+//        assertEquals(habitList.size(), 0);
 //    }
 //
-//    // BRANCH COVERAGE
 //    @Test
-//    public void multipleFileTest() throws InvalidHabitException, FileNotFoundException {
+//    public void testLoadExistentFile() throws InvalidHabitException, FileNotFoundException{
+//        String habitName = "test003";
+//        Calendar habitDate = Calendar.getInstance();
+//        ArrayList<String> occurDays = new ArrayList<>();
+//        occurDays.add(week[0]);
+//        Habit habit = new Habit(habitName, habitDate, occurDays);
 //
+//        AllHabitsActivity allHabitsActivity = new AllHabitsActivity();
+//        InputOutputGSON ioGson = new InputOutputGSON(allHabitsActivity);
+//
+//        ioGson.saveInFile(habit);
+//        assertTrue(isFileExistent(allHabitsActivity, ioGson.jsonFileName(habit)));
+//
+//        ArrayList<Habit> habitList = ioGson.loadFromAllFiles();
+//        assertEquals(habitList.size(), 1);
+//        assertEquals(habitList.get(0), habit);
 //    }
 
     // https://stackoverflow.com/questions/8867334/check-if-a-file-exists-before-calling-openfileinput
-    private boolean isFileExistent(Context context, String fileName) {
-        File file = context.getFileStreamPath(fileName);
-        return (file != null && file.exists());
-    }
+//    private boolean isFileExistent(Context context, String fileName) {
+//        File file = context.getFileStreamPath(fileName);
+//        return (file != null && file.exists());
+//    }
 
-    private File[] getFiles(Context context) {
-
+    private Integer getFiles(Context context) {
         File filesDir = context.getFilesDir();
-        return filesDir.listFiles();
+        System.out.println("Number of files: "+ Integer.toString(filesDir.listFiles().length));
+        return filesDir.listFiles().length;
     }
-
-
 }

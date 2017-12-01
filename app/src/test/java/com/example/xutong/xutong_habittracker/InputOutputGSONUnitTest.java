@@ -2,6 +2,7 @@ package com.example.xutong.xutong_habittracker;
 
 import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 
 import org.junit.Test;
 
@@ -49,6 +50,7 @@ public class InputOutputGSONUnitTest extends ActivityInstrumentationTestCase2 {
 
         assertFalse(isFileExistent(addEditHabitActivity, ioGson.jsonFileName(habit)));
         ioGson.saveInFile(habit);
+        Log.i("test", "test");
         assertTrue(isFileExistent(addEditHabitActivity, ioGson.jsonFileName(habit)));
     }
 
