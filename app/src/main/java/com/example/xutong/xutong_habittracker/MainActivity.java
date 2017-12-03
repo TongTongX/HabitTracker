@@ -1,5 +1,6 @@
 package com.example.xutong.xutong_habittracker;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
     private ArrayList<Habit> habits = new ArrayList<>();
     private ArrayList<Habit> fulfilledHabits = new ArrayList<>();
     private ArrayList<Habit> unfulfilledHabits = new ArrayList<>();
@@ -108,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Load all habits.
      */
-    private void loadAllHabit() {
+    public void loadAllHabit() {
         InputOutputGSON IOGson = new InputOutputGSON(this);
         habits = IOGson.loadFromAllFiles();
         if (!habits.isEmpty()) {
@@ -125,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
      * @param habit Habit object.
      * @param today Today.
      */
-    private void addToHabits(Habit habit, Calendar today) {
+    public void addToHabits(Habit habit, Calendar today) {
         boolean notPast = false;
         boolean isToday = false;
         boolean shouldOccur = false;
@@ -165,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
      * https://developer.android.com/guide/topics/ui/dialogs.html
      * @param habitName The selected habit's name.
      */
-    private void openAddFulfilDialog(final String habitName) {
+    public void openAddFulfilDialog(final String habitName) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("This Habit Is Fulfilled.")
         // Add the buttons
@@ -192,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
      * Add a habit's fulfilment date.
      * @param habitName The selected habit's name.
      */
-    private void addHabitFulfilDate (String habitName) {
+    public void addHabitFulfilDate (String habitName) {
         Calendar today = Calendar.getInstance();
 
         for (Habit habit : habits) {
@@ -219,5 +220,17 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
         }
+    }
+
+    public ArrayList<Habit> getHabits(){
+        return habits;
+    }
+
+    public ArrayList<Habit> getFulfilledHabits(){
+        return fulfilledHabits;
+    }
+
+    public ArrayList<Habit> getUnfulfilledHabits(){
+        return unfulfilledHabits;
     }
 }
