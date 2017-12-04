@@ -9,28 +9,9 @@ import java.util.Calendar;
 
 import static org.junit.Assert.assertEquals;
 
-public class HabitUnitTest extends ActivityInstrumentationTestCase2 {
+public class HabitUnitTest  {
 
     private String[] week = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
-
-    public HabitUnitTest(){
-        super(com.example.xutong.xutong_habittracker.MainActivity.class);
-    }
-
-    @Override
-    public void setUp() throws Exception{
-
-    }
-
-    @Override
-    public void tearDown() throws Exception {
-
-    }
-
-    @Override
-    public void runTest() throws Exception {
-
-    }
 
     @Test(expected = InvalidHabitException.class)
     public void testEmptyHabitName() throws InvalidHabitException{
