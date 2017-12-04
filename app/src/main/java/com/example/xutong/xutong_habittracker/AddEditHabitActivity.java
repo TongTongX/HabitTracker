@@ -1,5 +1,6 @@
 package com.example.xutong.xutong_habittracker;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
@@ -14,7 +15,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class AddEditHabitActivity extends AppCompatActivity implements View.OnClickListener{
+public class AddEditHabitActivity extends Activity implements View.OnClickListener{
     private Habit newHabit;
     private Calendar habitDate;
     private EditText habitNameText;
@@ -157,6 +158,10 @@ public class AddEditHabitActivity extends AppCompatActivity implements View.OnCl
                 });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    public void setOccurDays(){
+        daysOfWeek.add(week[2]);
     }
 }
 
