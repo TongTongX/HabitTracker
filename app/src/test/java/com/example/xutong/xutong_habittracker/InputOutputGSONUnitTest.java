@@ -3,7 +3,12 @@ package com.example.xutong.xutong_habittracker;
 import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
 
+import junit.framework.Assert;
+
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,62 +16,58 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.regex.Pattern;
 
+import static junit.framework.Assert.*;
 import static org.junit.Assert.assertEquals;
 
-public class InputOutputGSONUnitTest extends ActivityInstrumentationTestCase2 {
+@RunWith(RobolectricTestRunner.class)
+public class InputOutputGSONUnitTest {
 
     private String[] week = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 
-    public InputOutputGSONUnitTest(){
-        super(com.example.xutong.xutong_habittracker.MainActivity.class);
-    }
-
-    @Override
-    public void setUp() throws Exception{
-
-    }
-
-    @Override
-    public void tearDown() throws Exception {
-
-    }
-
-    @Override
-    public void runTest() throws Exception {
-
-    }
-
     @Test
     public void testSaveInFile() throws InvalidHabitException, FileNotFoundException{
+        // setup a dummy habit
         String habitName = "test001";
         Calendar habitDate = Calendar.getInstance();
         ArrayList<String> occurDays = new ArrayList<>();
         occurDays.add(week[0]);
         Habit habit = new Habit(habitName, habitDate, occurDays);
 
-        AddEditHabitActivity addEditHabitActivity = new AddEditHabitActivity();
-        InputOutputGSON ioGson = new InputOutputGSON(addEditHabitActivity);
+        // get context and make a new isntance of ioGson
+        Context context = RuntimeEnvironment.application;
+        InputOutputGSON ioGson = new InputOutputGSON(context);
 
-        assertFalse(isFileExistent(addEditHabitActivity, ioGson.jsonFileName(habit)));
+        // assert 0 files
+        Assert.assertEquals(0, context.fileList().length);
+
+        // add dummy habit and assert 1 file
         ioGson.saveInFile(habit);
-        assertTrue(isFileExistent(addEditHabitActivity, ioGson.jsonFileName(habit)));
+        Assert.assertEquals(1, context.fileList().length);
     }
 
     @Test
     public void testDeleteFile() throws InvalidHabitException, FileNotFoundException{
+        // setup a dummy habit
         String habitName = "test002";
         Calendar habitDate = Calendar.getInstance();
         ArrayList<String> occurDays = new ArrayList<>();
         occurDays.add(week[0]);
         Habit habit = new Habit(habitName, habitDate, occurDays);
 
-        AllHabitsActivity allHabitsActivity = new AllHabitsActivity();
-        InputOutputGSON ioGson = new InputOutputGSON(allHabitsActivity);
-        ioGson.saveInFile(habit);
+        // get context and make a new instance of InputOutputGSON
+        Context context = RuntimeEnvironment.application;
+        InputOutputGSON ioGson = new InputOutputGSON(context);
 
-        assertTrue(isFileExistent(allHabitsActivity, ioGson.jsonFileName(habit)));
+        // assert 0 file
+        Assert.assertEquals(0, context.fileList().length);
+
+        // add dummy habit and assert 1 file
+        ioGson.saveInFile(habit);
+        Assert.assertEquals(1, context.fileList().length);
+
+        // delete dummy habit and assert 0 file
         ioGson.deleteFile(habit);
-        assertFalse(isFileExistent(allHabitsActivity, ioGson.jsonFileName(habit)));
+        Assert.assertEquals(0, context.fileList().length);
     }
 
     @Test
