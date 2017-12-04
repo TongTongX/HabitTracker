@@ -256,5 +256,177 @@ public class dataTests {
 
     }
 
+    @Test
+    public void habitCreationAndFrequencyDates() throws InvalidHabitException {
+        //(1)future creation date - should not show up on main screen
+        MainActivity ma = Robolectric.setupActivity(MainActivity.class);
+        InputOutputGSON io = new InputOutputGSON(ma);
+
+        ArrayList<String> freq = new ArrayList<String>();
+        freq.add("Monday");
+
+        Calendar c = Calendar.getInstance();
+        c.set(2018,1,29);
+
+        Habit habit = new Habit("h",c, freq);
+        io.saveInFile(habit);
+
+        ma.loadAllHabit();
+        ArrayList<Habit> allH = ma.getHabits();
+//        System.out.println(allH.get(0).getHabitName());
+//        System.out.println(allH.get(0).getHabitDate().getTime().toString());
+//        System.out.println(allH.get(0).getOccurDays().get(0).toString());
+
+        Assert.assertTrue(allH.size()==1);
+        Assert.assertEquals("h",allH.get(0).getHabitName());
+        Assert.assertTrue(allH.get(0).getHabitDate().after(Calendar.getInstance()));
+        Assert.assertEquals("Monday",allH.get(0).getOccurDays().get(0).toString());
+
+        ma.addToHabits(habit,Calendar.getInstance());
+
+        ArrayList<Habit> fH = ma.getFulfilledHabits();
+        ArrayList<Habit> ufH = ma.getUnfulfilledHabits();
+
+        Assert.assertTrue(allH.size()==1);
+        Assert.assertEquals("h",allH.get(0).getHabitName());
+        Assert.assertTrue(allH.get(0).getHabitDate().after(Calendar.getInstance()));
+        Assert.assertEquals("Monday",allH.get(0).getOccurDays().get(0).toString());
+
+        Assert.assertTrue(fH.size()==0);
+        Assert.assertTrue(ufH.size()==0);
+
+
+    }
+
+    @Test
+    public void confirmTodayUnfulfilled() throws InvalidHabitException {
+        String[] daysOfWeek = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+        MainActivity ma = Robolectric.setupActivity(MainActivity.class);
+        InputOutputGSON io = new InputOutputGSON(ma);
+
+
+        Calendar c = Calendar.getInstance();
+        ArrayList<String> freq = new ArrayList<String>();
+        int weekday = c.get(Calendar.DAY_OF_WEEK)-1;
+       // System.out.println(weekday);
+       // System.out.println(daysOfWeek[weekday].toString());
+        freq.add(daysOfWeek[weekday].toString());
+
+        Habit habit = new Habit("h",c, freq);
+        io.saveInFile(habit);
+
+        ma.loadAllHabit(); //calls addtoHabits();
+        ArrayList<Habit> allH = ma.getHabits();
+
+      //  ma.addToHabits(habit,c);
+
+        ArrayList<Habit> fH = ma.getFulfilledHabits();
+        ArrayList<Habit> ufH = ma.getUnfulfilledHabits();
+
+        Assert.assertTrue(fH.size()==0);
+        Assert.assertTrue(ufH.size()==1 );
+
+        //(2) move from unfullfilled to fulfilled section after fullfilment
+
+        ma.addHabitFulfilDate("h"); //updates with time of method call via calendar class
+
+        Assert.assertTrue(fH.size()==1);
+        Assert.assertTrue(ufH.size()==0 );
+
+    }
+
+    @Test
+    public void confirmPastCreationDate() throws InvalidHabitException {
+        String[] daysOfWeek = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+        MainActivity ma = Robolectric.setupActivity(MainActivity.class);
+        InputOutputGSON io = new InputOutputGSON(ma);
+
+        Calendar c = Calendar.getInstance();
+        ArrayList<String> freq = new ArrayList<String>();
+        int weekday = c.get(Calendar.DAY_OF_WEEK)-1;
+         System.out.println(weekday);
+         System.out.println(daysOfWeek[weekday].toString());
+        freq.add(daysOfWeek[weekday].toString());
+
+        Calendar cPast = Calendar.getInstance();
+        cPast.set(2017,1,12);
+        Habit habit = new Habit("h",cPast, freq);
+        Assert.assertTrue(habit.getHabitDate().before(c));
+        io.saveInFile(habit);
+
+        ma.loadAllHabit();
+        ArrayList<Habit> allH = ma.getHabits();
+        System.out.println("allh "+allH.size());
+
+        ArrayList<Habit> fH = ma.getFulfilledHabits();
+        ArrayList<Habit> ufH = ma.getUnfulfilledHabits();
+        System.out.println("ufh " + ufH.size());
+        System.out.println("fh " + fH.size());
+
+//        ma.addToHabits(allH.get(0),Calendar.getInstance());
+//        System.out.println("AFter adding to habits: "+daysOfWeek[allH.get(0).getHabitDate().get(Calendar.DAY_OF_WEEK)]);
+//        Assert.assertEquals(daysOfWeek[weekday].toString(),daysOfWeek[allH.get(0).getHabitDate().get(Calendar.DAY_OF_WEEK)].toString());
+
+//        fH = ma.getFulfilledHabits();
+//        ufH = ma.getUnfulfilledHabits();
+//
+//        System.out.println("ufh " + ufH.size());
+//        System.out.println("fh " + fH.size());
+
+//        for(Habit h:ufH){
+//            System.out.println(h.getHabitName().toString());
+//        }
+
+        Assert.assertTrue(fH.size()==0);
+        Assert.assertTrue(ufH.size()==1);
+
+        ma.addHabitFulfilDate(allH.get(0).getHabitName().toString());
+
+        Assert.assertTrue(fH.size()==1);
+        Assert.assertTrue(ufH.size()==0 );
+
+    }
+
+    @Test
+    public void doesNotOccurToday() throws InvalidHabitException {
+        String[] daysOfWeek = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+        MainActivity ma = Robolectric.setupActivity(MainActivity.class);
+        InputOutputGSON io = new InputOutputGSON(ma);
+
+        Calendar c = Calendar.getInstance();
+
+        ArrayList<String> freq = new ArrayList<String>();
+        int weekday = c.get(Calendar.DAY_OF_WEEK); //need to subtract 1 for correct weekday so this will give wrong weekday
+//        System.out.println(weekday);
+//        System.out.println(daysOfWeek[weekday].toString());
+        freq.add(daysOfWeek[weekday].toString());
+
+        Calendar cPast = Calendar.getInstance();
+        cPast.set(2017,1,12);
+
+        Habit habitPast = new Habit("h",cPast, freq);
+        Assert.assertTrue(habitPast.getHabitDate().before(c));
+        io.saveInFile(habitPast);
+
+        Habit habitToday = new Habit("h",c, freq);
+        io.saveInFile(habitToday);
+
+        ma.loadAllHabit();
+        ArrayList<Habit> allH = ma.getHabits();
+        Assert.assertTrue(allH.size()==2);
+
+        for(Habit h : allH){
+            ma.addToHabits(h,c);
+        }
+
+        ArrayList<Habit> fH = ma.getFulfilledHabits();
+        ArrayList<Habit> ufH = ma.getUnfulfilledHabits();
+
+        Assert.assertTrue(fH.size()==0);
+        Assert.assertTrue(ufH.size()==0);
+
+
+    }
+
 }//end
 

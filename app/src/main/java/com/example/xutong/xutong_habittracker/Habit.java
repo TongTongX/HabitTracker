@@ -62,4 +62,8 @@ public class Habit {
     public void setFulfilDate(ArrayList<Calendar> fulfilDate) {
         this.fulfilDate = fulfilDate;
     }
+
+    public  void setHabitDate(Calendar c){
+        this.habitDate=c;
+    }
 }
