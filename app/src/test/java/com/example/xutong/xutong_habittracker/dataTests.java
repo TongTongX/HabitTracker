@@ -1,5 +1,6 @@
 package com.example.xutong.xutong_habittracker;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import org.apache.maven.model.Build;
 import org.apache.tools.ant.Main;
@@ -21,66 +23,73 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.fakes.RoboMenuItem;
 import org.robolectric.shadows.ShadowActivity;
+import org.robolectric.shadows.ShadowAlertDialog;
 import org.robolectric.shadows.ShadowApplication;
 import org.robolectric.shadows.ShadowHandler;
 import org.robolectric.shadows.ShadowIntent;
+import org.robolectric.shadows.ShadowListView;
 import org.robolectric.shadows.ShadowToast;
 import org.robolectric.shadows.support.v4.Shadows;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 import static org.robolectric.Shadows.*;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants= BuildConfig.class,manifest = "src/main/AndroidManifest.xml")
+@Config(constants= BuildConfig.class,manifest = "app/src/main/AndroidManifest.xml")
 public class dataTests {
 
     @Test
     public void testCancel(){
         AddEditHabitActivity aeh = Robolectric.setupActivity(AddEditHabitActivity.class);
+        ShadowActivity shadowActivity = shadowOf(aeh);
 
         EditText hName = (EditText) aeh.findViewById(R.id.edit_habit_name);
         EditText hCreationDate = (EditText) aeh.findViewById(R.id.edit_date);
         EditText hOccurances = (EditText) aeh.findViewById(R.id.edit_days);
         Button addHabitButton = (Button) aeh.findViewById(R.id.add_habit_button);
 
-        hName.setText("hName");
-        hCreationDate.setText("2017-12-1");
+        //(1) Null Habit Name; Null daysof Week, habitDate
+
+        Assert.assertTrue(addHabitButton.performClick());
+        ShadowHandler.idleMainLooper();
+        Assert.assertEquals("Please specify day(s) of week it should occur on." ,ShadowToast.getTextOfLatestToast());
+
+        //(3) invalid occurances
+        hName.setText("name");
+
+        Assert.assertTrue(addHabitButton.performClick());
+        ShadowHandler.idleMainLooper();
+        Assert.assertEquals("Please specify day(s) of week it should occur on." ,ShadowToast.getTextOfLatestToast());
+
+        //(2) Null Habit Name; daysof Week, habitDate
         aeh.setOccurDays();
-
-//        if (occurClick){
-//            AlertDialog d = (AlertDialog)
-//        }
-//
-//        AlertDialog alert =
-//                ShadowAlertDialog.getLatestAlertDialog();
-//        ShadowAlertDialog sAlert = shadowOf(alert);
-//        assertThat(sAlert.getTitle().toString(),
-//                equalTo(activity.getString(R.string.all_fields_required_)));
-
-        boolean clicked = addHabitButton.performClick();
-
-        Assert.assertTrue(clicked);
+        hName.setText(null);
+        Assert.assertTrue(addHabitButton.performClick());
         ShadowHandler.idleMainLooper();
         Assert.assertEquals("Please enter a Habit name." ,ShadowToast.getTextOfLatestToast());
 
+        //invalid creation date -- unreachable (automatically created)
+
+        //cancel button finishes this activity and brings user back to main activity
         Button cancel = (Button) aeh.findViewById(R.id.cancel_add_button);
         boolean clickedCancel = cancel.performClick();
 
         Assert.assertTrue(clickedCancel);
+        Assert.assertTrue(shadowActivity.isFinishing());
 
-        Intent startedIntent = shadowOf(aeh).getNextStartedActivity();
-        ShadowIntent shadowIntent = shadowOf(startedIntent);
-        Assert.assertEquals(MainActivity.class, shadowIntent.getIntentClass());
-
+       //finish() does not create another activity, the aehActivity was created ontop of MainActivity
 
     }
 
 
+    /*
     @Test
-    public void fulfillDateTest() throws InvalidHabitException {
+    public void fulfillDateTestUI() throws InvalidHabitException {
 
         MainActivity ma = Robolectric.setupActivity(MainActivity.class);
         ma.onOptionsItemSelected(new RoboMenuItem(R.id.action_add_habit));
@@ -101,23 +110,15 @@ public class dataTests {
         Button addHabitButton = (Button) aeh.findViewById(R.id.add_habit_button);
 
         hName.setText("hName");
-        hCreationDate.setText("2017-12-1");
-//        hOccurances.setText("Monday");
         aeh.setOccurDays();
         boolean clicked = addHabitButton.performClick();
 
-        Assert.assertTrue(clicked); //valid input
+        Assert.assertTrue(clicked);
 
         String[] files = aeh.fileList();
-        System.out.println(files.length);
+        Assert.assertTrue(files.length==1);
         String[] files2 = ma.fileList();
-        System.out.println(files2.length);
-
-        Assert.fail();
-//        Intent startedIntent2 = shadowOf(aeh).getNextStartedActivity();
-//        ShadowIntent shadowIntent2 = shadowOf(startedIntent);
-//        Assert.assertEquals(MainActivity.class, shadowIntent2.getIntentClass());
-
+        Assert.assertTrue(files2.length==1);
 
 
 
@@ -129,7 +130,6 @@ public class dataTests {
 //        Habit habit = new Habit("h", Calendar.getInstance(),freq);
 //        io.saveInFile(habit);
 
-
 //        ma.loadAllHabit();
 //        ArrayList<Habit> currHabits = ma.getHabits();
 //
@@ -139,5 +139,122 @@ public class dataTests {
 //        ma.addHabitFulfilDate();
 
     }
+    */
+
+    @Test
+    public void fulfillmentTest() throws InvalidHabitException {
+        //(1) fulfill previously unfulfilled habit 1 time
+
+        MainActivity ma = Robolectric.setupActivity(MainActivity.class);
+        InputOutputGSON io = new InputOutputGSON(ma);
+
+        ArrayList<String> freq = new ArrayList<String>();
+        freq.add("Monday");
+
+        Habit habit = new Habit("h", Calendar.getInstance(),freq);
+        io.saveInFile(habit);
+
+        Assert.assertTrue(ma.fileList().length==1);
+
+        ma.loadAllHabit();
+        ArrayList<Habit> currHabits = ma.getHabits();
+
+        Assert.assertFalse(currHabits.isEmpty());
+        Assert.assertEquals("h",currHabits.get(0).getHabitName().toString());
+        Assert.assertEquals(0,currHabits.get(0).getFulfilDate().size());
+
+        ma.addHabitFulfilDate("h"); //updates with time of method call via calendar class
+
+        ArrayList<Habit> updated = io.loadFromAllFiles();
+        ArrayList<Calendar> fDates = updated.get(0).getFulfilDate();
+        Assert.assertEquals(1,fDates.size());
+
+    }
+
+    @Test
+    public void deleteFulfillments() throws InvalidHabitException {
+        MainActivity ma = Robolectric.setupActivity(MainActivity.class);
+        InputOutputGSON io = new InputOutputGSON(ma);
+
+        ArrayList<String> freq = new ArrayList<String>();
+        freq.add("Monday");
+
+        Habit habit = new Habit("h", Calendar.getInstance(),freq);
+        io.saveInFile(habit);
+
+        Assert.assertTrue(ma.fileList().length==1);
+
+        ma.loadAllHabit();
+
+        ma.addHabitFulfilDate("h"); //updates with time of method call via calendar class
+        ma.addHabitFulfilDate("h");
+        ma.addHabitFulfilDate("h");
+
+        ArrayList<Habit> updated = io.loadFromAllFiles();
+        ArrayList<Calendar> fDates = updated.get(0).getFulfilDate();
+        Assert.assertEquals(3,fDates.size());
+
+        AllHabitsActivity ah = Robolectric.buildActivity(AllHabitsActivity.class).create().start().get();
+        ArrayList<Habit> currHabits = ah.getHabits();
+
+        ArrayList<Calendar> fDates2 = currHabits.get(0).getFulfilDate();
+        Assert.assertEquals(3,fDates2.size());
+
+        List<Integer> toDelete = new ArrayList<Integer>();
+        toDelete.add(0);
+
+        ah.setfulfilForDeleting(toDelete);
+        ah.deleteFulfilment(currHabits.get(0));
+
+        InputOutputGSON io2 = new InputOutputGSON(ah);
+        ArrayList<Habit> updatedHabits = io2.loadFromAllFiles();
+        Assert.assertEquals(2,updatedHabits.get(0).getFulfilDate().size());
+
+    }
+    @Test
+    public void deleteAllFulfillments() throws InvalidHabitException {
+        MainActivity ma = Robolectric.setupActivity(MainActivity.class);
+        InputOutputGSON io = new InputOutputGSON(ma);
+
+        ArrayList<String> freq = new ArrayList<String>();
+        freq.add("Monday");
+
+        Habit habit = new Habit("h", Calendar.getInstance(),freq);
+        io.saveInFile(habit);
+
+        Assert.assertTrue(ma.fileList().length==1);
+
+        ma.loadAllHabit();
+
+        ma.addHabitFulfilDate("h"); //updates with time of method call via calendar class
+        ma.addHabitFulfilDate("h");
+        ma.addHabitFulfilDate("h");
+
+        ArrayList<Habit> updated = io.loadFromAllFiles();
+        ArrayList<Calendar> fDates = updated.get(0).getFulfilDate();
+        Assert.assertEquals(3,fDates.size());
+
+        AllHabitsActivity ah = Robolectric.buildActivity(AllHabitsActivity.class).create().start().get();
+        ArrayList<Habit> currHabits = ah.getHabits();
+
+        ArrayList<Calendar> fDates2 = currHabits.get(0).getFulfilDate();
+        Assert.assertEquals(3,fDates2.size());
+
+        List<Integer> toDelete = new ArrayList<Integer>();
+        toDelete.add(0);
+        toDelete.add(1);
+        toDelete.add(2);
+
+        Assert.assertTrue(toDelete.size()==fDates2.size());
+
+        ah.setfulfilForDeleting(toDelete);
+        ah.deleteFulfilment(currHabits.get(0));
+
+        InputOutputGSON io2 = new InputOutputGSON(ah);
+        ArrayList<Habit> updatedHabits = io2.loadFromAllFiles();
+        Assert.assertEquals(0,updatedHabits.get(0).getFulfilDate().size());
+
+    }
 
 }//end
+

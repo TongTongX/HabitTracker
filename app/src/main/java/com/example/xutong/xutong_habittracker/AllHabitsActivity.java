@@ -1,6 +1,8 @@
 package com.example.xutong.xutong_habittracker;
 
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +20,7 @@ import java.util.List;
 /**
  * Display the list of all added habits.
  */
-public class AllHabitsActivity extends AppCompatActivity {
+public class AllHabitsActivity extends Activity {
     private ArrayList<Habit> habits = new ArrayList<>();
     private ArrayList<Calendar> fulfilDate = new ArrayList<>();
     private ArrayAdapter<Habit> habitAdapter;
@@ -157,7 +159,7 @@ public class AllHabitsActivity extends AppCompatActivity {
      * Delete selected fulfil date(s).
      * @param habit The selected habit.
      */
-    private void deleteFulfilment(Habit habit) {
+    public void deleteFulfilment(Habit habit) {
         fulfilDate = habit.getFulfilDate();
         // clear the ArrayList in case of IndexOutOfRange Exception
         if (fulfilForDeleting.size() == fulfilDate.size()) {
@@ -187,7 +189,7 @@ public class AllHabitsActivity extends AppCompatActivity {
      * Delete habit.
      * @param habit The habit to be deleted.
      */
-    private void deleteHabit(Habit habit) {
+    public void deleteHabit(Habit habit) {
         // make changes to json file & reload
         InputOutputGSON IOGson = new InputOutputGSON(this);
         IOGson.deleteFile(habit);
@@ -214,5 +216,18 @@ public class AllHabitsActivity extends AppCompatActivity {
             System.out.println("Error " + e.getMessage());
         }
         return fulfilList;
+    }
+
+    public List<Integer> getfulfilForDeleting(){
+        return fulfilForDeleting;
+    }
+
+    public int setfulfilForDeleting(List<Integer> d){
+        fulfilForDeleting=d;
+        return fulfilForDeleting.size();
+    }
+
+    public ArrayList<Habit> getHabits(){
+        return habits;
     }
 }

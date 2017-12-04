@@ -233,4 +233,12 @@ public class MainActivity extends Activity {
     public ArrayList<Habit> getUnfulfilledHabits(){
         return unfulfilledHabits;
     }
+
+    public ListView getFulfilledListView(){
+        return fulfilledListView;
+    }
+
+    public ListView getUnfulfilledListView(){
+        return unfulfilledListView;
+    }
 }
