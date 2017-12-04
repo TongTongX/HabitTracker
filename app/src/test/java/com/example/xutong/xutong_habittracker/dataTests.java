@@ -312,15 +312,13 @@ public class dataTests {
        // System.out.println(daysOfWeek[weekday].toString());
         freq.add(daysOfWeek[weekday].toString());
 
-
-
         Habit habit = new Habit("h",c, freq);
         io.saveInFile(habit);
 
-        ma.loadAllHabit();
+        ma.loadAllHabit(); //calls addtoHabits();
         ArrayList<Habit> allH = ma.getHabits();
 
-        ma.addToHabits(habit,c);
+      //  ma.addToHabits(habit,c);
 
         ArrayList<Habit> fH = ma.getFulfilledHabits();
         ArrayList<Habit> ufH = ma.getUnfulfilledHabits();
@@ -358,17 +356,31 @@ public class dataTests {
 
         ma.loadAllHabit();
         ArrayList<Habit> allH = ma.getHabits();
+        System.out.println("allh "+allH.size());
 
-        ma.addToHabits(allH.get(0),Calendar.getInstance());
-        System.out.println("AFter adding to habits: "+daysOfWeek[allH.get(0).getHabitDate().get(Calendar.DAY_OF_WEEK)]);
-        Assert.assertEquals(daysOfWeek[weekday].toString(),daysOfWeek[allH.get(0).getHabitDate().get(Calendar.DAY_OF_WEEK)].toString());
         ArrayList<Habit> fH = ma.getFulfilledHabits();
         ArrayList<Habit> ufH = ma.getUnfulfilledHabits();
+        System.out.println("ufh " + ufH.size());
+        System.out.println("fh " + fH.size());
+
+//        ma.addToHabits(allH.get(0),Calendar.getInstance());
+//        System.out.println("AFter adding to habits: "+daysOfWeek[allH.get(0).getHabitDate().get(Calendar.DAY_OF_WEEK)]);
+//        Assert.assertEquals(daysOfWeek[weekday].toString(),daysOfWeek[allH.get(0).getHabitDate().get(Calendar.DAY_OF_WEEK)].toString());
+
+//        fH = ma.getFulfilledHabits();
+//        ufH = ma.getUnfulfilledHabits();
+//
+//        System.out.println("ufh " + ufH.size());
+//        System.out.println("fh " + fH.size());
+
+//        for(Habit h:ufH){
+//            System.out.println(h.getHabitName().toString());
+//        }
 
         Assert.assertTrue(fH.size()==0);
         Assert.assertTrue(ufH.size()==1);
 
-        ma.addHabitFulfilDate("h");
+        ma.addHabitFulfilDate(allH.get(0).getHabitName().toString());
 
         Assert.assertTrue(fH.size()==1);
         Assert.assertTrue(ufH.size()==0 );
