@@ -14,10 +14,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Date;
 
 public class MainActivity extends Activity {
     private ArrayList<Habit> habits = new ArrayList<>();
@@ -240,5 +242,25 @@ public class MainActivity extends Activity {
 
     public ListView getUnfulfilledListView(){
         return unfulfilledListView;
+    }
+
+    public void avgFulfillments(Habit h){
+        double numOccuranceDays=0;
+        ArrayList<String> freq = h.getOccurDays(); //length btwn 1-7
+        ArrayList<Calendar> fulfillmentDates =  h.getFulfilDate();
+        Calendar creationDate = h.getHabitDate();
+
+        Calendar today = Calendar.getInstance();
+
+        int numOccuranceDays=0;
+        int i=0;
+        Calendar currDate = fulfillmentDates.get(i);
+        while(currDate.after(creationDate)){
+            currDate = fulfillmentDates.get(i+1);
+
+        }
+
+
+
     }
 }

@@ -35,13 +35,6 @@ public class regressionTests {
         ioGson.saveInFile(habit);
         Assert.assertTrue(ma.fileList().length==1);
 
-        ma.loadAllHabit();
-        ArrayList<Habit> currHabits = ma.getHabits();
-
-        Assert.assertFalse(currHabits.isEmpty());
-        Assert.assertEquals("h",currHabits.get(0).getHabitName().toString());
-        Assert.assertEquals(0,currHabits.get(0).getFulfilDate().size());
-
         ArrayList<Calendar> fulfilDates = new ArrayList<>();
         date.set(2017,Calendar.NOVEMBER,6);
         for(int i=0;i<4;i++){

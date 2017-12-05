@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
+import org.robolectric.annotation.Config;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,6 +21,7 @@ import static junit.framework.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricTestRunner.class)
+@Config(constants= BuildConfig.class,manifest = "app/src/main/AndroidManifest.xml")
 public class InputOutputGSONUnitTest {
 
     private String[] week = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
