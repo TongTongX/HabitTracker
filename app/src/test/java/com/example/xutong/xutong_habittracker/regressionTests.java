@@ -13,14 +13,11 @@ import org.robolectric.annotation.Config;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-/**
- * Created by zhengyangli on 2017-12-04.
- */
-
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants= BuildConfig.class,manifest = "app/src/main/AndroidManifest.xml")
 public class regressionTests {
+
     @Test
     public void oneMonthHabit() throws InvalidHabitException {
         MainActivity ma = Robolectric.setupActivity(MainActivity.class);
@@ -36,23 +33,31 @@ public class regressionTests {
         Assert.assertTrue(ma.fileList().length==1);
 
         ArrayList<Calendar> fulfilDates = new ArrayList<>();
-        date.set(2017,Calendar.NOVEMBER,6);
+
+        Calendar date1 = Calendar.getInstance();
+        date1.set(2017,Calendar.NOVEMBER,6);
         for(int i=0;i<4;i++){
-            fulfilDates.add(date);
+            fulfilDates.add(date1);
         }
-        date.set(2017,Calendar.NOVEMBER,13);
+
+        Calendar date2 = Calendar.getInstance();
+        date2.set(2017,Calendar.NOVEMBER,13);
         for(int i=0;i<6;i++){
-            fulfilDates.add(date);
+            fulfilDates.add(date2);
         }
-        date.set(2017,Calendar.NOVEMBER,20);
-        for(int i=0;i<8;i++){
-            fulfilDates.add(date);
+
+
+        Calendar date3 = Calendar.getInstance();
+        date3.set(2017,Calendar.NOVEMBER,20);
+        for(int i=0; i < 8; i++){
+            fulfilDates.add(date3);
         }
+
         habit.setFulfilDate(fulfilDates);
         ioGson.saveInFile(habit);
 
+
+        Assert.assertEquals(3, ma.avgFulfillments(habit));
     }
-
-
 
 }

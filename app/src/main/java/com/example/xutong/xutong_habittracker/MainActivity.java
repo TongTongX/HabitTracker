@@ -244,23 +244,28 @@ public class MainActivity extends Activity {
         return unfulfilledListView;
     }
 
-    public void avgFulfillments(Habit h){
-        double numOccuranceDays=0;
-        ArrayList<String> freq = h.getOccurDays(); //length btwn 1-7
-        ArrayList<Calendar> fulfillmentDates =  h.getFulfilDate();
-        Calendar creationDate = h.getHabitDate();
-
+    public int avgFulfillments(Habit habit){
         Calendar today = Calendar.getInstance();
+        Calendar current = null;
+        int numDays = 1;
 
-        int numOccuranceDays=0;
-        int i=0;
-        Calendar currDate = fulfillmentDates.get(i);
-        while(currDate.after(creationDate)){
-            currDate = fulfillmentDates.get(i+1);
+        for (Calendar hab: habit.getFulfilDate()) {
 
+            if (hab.after(habit.getHabitDate()) && hab.before(today)) {
+
+                if (current == null) {
+                    current = hab;
+                }
+
+                if (!current.equals(hab)) {
+                    current = hab;
+                    numDays++;
+                }
+
+            }
         }
 
-
+        return habit.getFulfilDate().size() / numDays;
 
     }
 }
