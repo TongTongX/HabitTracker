@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void openAddFulfilDialog(final String habitName) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("This Habit Is Fulfilled.")
+        builder.setTitle("Fulfill this habit?")
         // Add the buttons
                 // User clicked OK button
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
