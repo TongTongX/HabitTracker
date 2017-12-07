@@ -220,4 +220,24 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    public ArrayList<Habit> getHabits(){
+        return habits;
+    }
+
+    public ArrayList<Habit> getFulfilledHabits(){
+        return fulfilledHabits;
+    }
+
+    public ArrayList<Habit> getUnfulfilledHabits(){
+        return unfulfilledHabits;
+    }
+
+    public ListView getFulfilledListView(){
+        return fulfilledListView;
+    }
+
+    public ListView getUnfulfilledListView(){
+        return unfulfilledListView;
+    }
 }
