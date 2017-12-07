@@ -244,7 +244,7 @@ public class MainActivity extends Activity {
         return unfulfilledListView;
     }
 
-    public int avgFulfillments(Habit habit){
+    public double avgFulfillments(Habit habit){
         Calendar today = Calendar.getInstance();
         Calendar current = null;
         int numDays = 1;
@@ -265,7 +265,7 @@ public class MainActivity extends Activity {
             }
         }
 
-        return habit.getFulfilDate().size() / numDays;
+        return  (double)habit.getFulfilDate().size() / (double)numDays;
 
     }
 }
