@@ -9,6 +9,7 @@ import android.widget.EditText;
 import com.robotium.solo.Solo;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -50,11 +51,8 @@ public class AddEditHabitActivityTest extends ActivityInstrumentationTestCase2<A
 //        solo.clickOnButton("Add Habit");
         solo.clickOnView(solo.getView(R.id.add_habit_button));
         solo.waitForActivity(MainActivity.class);
-//        solo.assertCurrentActivity("back to main",MainActivity.class);
-        Context context = this.getInstrumentation().getTargetContext().getApplicationContext();
-        InputOutputGSON io = new InputOutputGSON(c);
-        ArrayList<Habit> h = io.loadFromAllFiles();
-        assertEquals("test01",h.get(0).getHabitName().toString());
+        solo.assertCurrentActivity("back to main",MainActivity.class);
+
         fail();
     }
 
@@ -66,8 +64,8 @@ public class AddEditHabitActivityTest extends ActivityInstrumentationTestCase2<A
         solo.enterText((EditText) solo.getView(R.id.edit_habit_name), " ");
         solo.enterText((EditText) solo.getView(R.id.edit_date), "2017-11-17");
         solo.enterText((EditText) solo.getView(R.id.edit_days), "Friday");
-        solo.clickOnButton("Add Habit");
-//        assertTrue("Cannot find toast", solo.waitForText("Please enter a Habit name."));
+        solo.clickOnView(solo.getView(R.id.add_habit_button));
+        assertTrue("Cannot find toast", solo.waitForText("Please enter a Habit name."));
     }
 
     /**
@@ -77,8 +75,8 @@ public class AddEditHabitActivityTest extends ActivityInstrumentationTestCase2<A
         solo.assertCurrentActivity("Wrong Activity", AddEditHabitActivity.class);
         solo.enterText((EditText) solo.getView(R.id.edit_habit_name), "test02");
         solo.enterText((EditText) solo.getView(R.id.edit_date), "2017-11-17");
-        solo.clickOnButton("Add Habit");
-//        assertTrue("Cannot find toast", solo.searchText("specify day(s) of week"));
+        solo.clickOnView(solo.getView(R.id.add_habit_button));
+        assertTrue("Cannot find toast", solo.searchText("Please specify day(s) of week"));
     }
 
     /**
@@ -88,7 +86,13 @@ public class AddEditHabitActivityTest extends ActivityInstrumentationTestCase2<A
         solo.assertCurrentActivity("Wrong Activity", AddEditHabitActivity.class);
         solo.enterText((EditText) solo.getView(R.id.edit_habit_name), " ");
         solo.enterText((EditText) solo.getView(R.id.edit_date), "2017-11-17");
-        solo.clickOnButton("Add Habit");
-//        assertTrue("Cannot find toast", solo.searchText("enter a Habit name"));
+        solo.clickOnView(solo.getView(R.id.add_habit_button));
+        assertTrue("Cannot find toast", solo.searchText("Please enter a Habit name"));
     }
 }
+
+//    Context context = this.getInstrumentation().getTargetContext().getApplicationContext();
+//    InputOutputGSON io = new InputOutputGSON( solo.getCurrentActivity());
+//    ArrayList<Habit> h = io.loadFromAllFiles();
+//    ArrayList<Habit> h =((MainActivity) solo.getCurrentActivity()).getHabits();
+//    assertEquals("test01",h.get(0).getHabitName().toString());
