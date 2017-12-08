@@ -240,4 +240,29 @@ public class MainActivity extends AppCompatActivity {
     public ListView getUnfulfilledListView(){
         return unfulfilledListView;
     }
+
+    public double avgFulfillments(Habit habit){
+        Calendar today = Calendar.getInstance();
+        Calendar current = null;
+        int numDays = 1;
+
+        for (Calendar hab: habit.getFulfilDate()) {
+
+            if (hab.after(habit.getHabitDate()) && hab.before(today)) {
+
+                if (current == null) {
+                    current = hab;
+                }
+
+                if (!current.equals(hab)) {
+                    current = hab;
+                    numDays++;
+                }
+
+            }
+        }
+
+        return  (double)habit.getFulfilDate().size() / (double)numDays;
+
+    }
 }
